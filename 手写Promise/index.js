@@ -18,6 +18,7 @@ class myPromise {
                 this.status = statusRej
             }
         }
+        // 阿斯顿撒
         fn(res, rej)
     }
     then(onRes, onRej) {
