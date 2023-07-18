@@ -6,54 +6,101 @@ class myPromise {
     constructor(fn) {
         this.statusResValue = ''
         this.statusRejValue = ''
-        this. status = statusPedding
-        this.onRes=undefined
-        this.onRej=undefined
+        this.status = statusPedding
+        this.onResFns = []
+        this.onRejFns = []
         let res = (value) => {
-            queueMicrotask(()=>{
+            queueMicrotask(() => {
                 if (this.status === statusPedding) {
-                   this. status = statusRes
+                    this.status = statusRes
                     this.statusResValue = value
-                    this.onRes(value)
-                }
-            })
-        
-        }
-        let rej = (value) => {
-            queueMicrotask(()=>{
-                if (this.status === statusPedding) {
-                    this.statusRejValue = value
-                    this.status = statusRej
-                    this.onRej(value)
+                    this.onResFns.forEach(fn => {
+                        // console.log(fn)
+                        fn(this.statusResValue)
+                    })
                 }
             })
 
         }
+        let rej = (value) => {
+            queueMicrotask(() => {
+                if (this.status === statusPedding) {
+                    this.statusRejValue = value
+                    this.status = statusRej
+                    this.onRejFns.forEach(fn => {
+                        fn(this.statusRejValue)
+                    })
+                }
+            })
+
+        }
+
         fn(res, rej)
     }
     then(onRes, onRej) {
-        this.onRes=onRes
-        this.onRej=onRej
+        return new myPromise((res, rej) => {
+            if (this.status === statusRes && onRes) {
+                try {
+                    const value = onRes(this.statusResValue)
+                    console.log(value,'value')
+                    res(value)
+                } catch (err) {
+                    rej(err)
+                }
+
+            }
+            if (this.status === statusRej && onRes) {
+                try {
+                    const value = onRej(this.statusResValue)
+                    res(value)
+                } catch (err) {
+                    rej(err)
+                }
+
+
+            }
+            if (this.status === statusPedding) {
+                this.onResFns.push(() => {
+                    try {
+                        const value = onRes(this.statusResValue)
+                        console.log(value,'value')
+                        res(value)
+                    } catch (err) {
+                        rej(err)
+                    }
+                })
+            }
+            if (this.status === statusPedding) {
+                this.onRejFns.push(() => {
+                    try {
+                        const value = onRej(this.statusResValue)
+                        res(value)
+                    } catch (err) {
+                        rej(err)
+                    }
+                })
+                // this.onRejFns.push(onRej)
+            }
+        })
+
+
+
     }
 }
 
 let mypromise = new myPromise((res, rej) => {
     res(1111)
-    rej('222')
+    // rej('222')
 })
 mypromise.then((res) => {
-    // return '213213'
-    console.log(res)
+    console.log('res1：', res)
+    return '213213'
 }, (rej) => {
     console.log(rej)
+}).then(res => {
+    console.log('res2:', res)
+}, rej => {
+    console.log('rej2:', rej)
 })
-// .then((res=>{
-//     console.log(res)
-// }))
-// setTimeout(()=>{
-//     mypromise.then((res) => {
-//         console.log(res)
-//     }, (rej) => {
-//         console.log(rej)
-//     })
-// },1000)
+
+
