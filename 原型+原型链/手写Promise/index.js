@@ -10,17 +10,17 @@ class myPromise {
         this.onResFns = []
         this.onRejFns = []
         let res = (value) => {
+            console.log( this.onResFns,' this.onResFns')
             queueMicrotask(() => {
+                console.log( this.onResFns,' this.onResFns1111')
                 if (this.status === statusPedding) {
                     this.status = statusRes
                     this.statusResValue = value
                     this.onResFns.forEach(fn => {
-                        // console.log(fn)
                         fn(this.statusResValue)
                     })
                 }
             })
-
         }
         let rej = (value) => {
             queueMicrotask(() => {
@@ -38,7 +38,7 @@ class myPromise {
         fn(res, rej)
     }
     then(onRes, onRej) {
-        return new myPromise((res, rej) => {
+     let promise2= new myPromise((res, rej) => {
             if (this.status === statusRes && onRes) {
                 try {
                     const value = onRes(this.statusResValue)
@@ -62,6 +62,7 @@ class myPromise {
             if (this.status === statusPedding) {
                 this.onResFns.push(() => {
                     try {
+                        console.log(this.statusResValue,'this.statusResValue')
                         const value = onRes(this.statusResValue)
                         console.log(value,'value')
                         res(value)
@@ -83,24 +84,28 @@ class myPromise {
             }
         })
 
-
+   return     promise2
 
     }
 }
+debugger
 
 let mypromise = new myPromise((res, rej) => {
     res(1111)
     // rej('222')
 })
-mypromise.then((res) => {
+console.log(mypromise,'mypromise')
+let promise2= mypromise.then((res) => {
     console.log('res1：', res)
     return '213213'
 }, (rej) => {
     console.log(rej)
-}).then(res => {
+})
+console.log(promise2)
+let promise3= promise2.then(res => {
     console.log('res2:', res)
 }, rej => {
     console.log('rej2:', rej)
 })
-
+console.log(promise3)
 

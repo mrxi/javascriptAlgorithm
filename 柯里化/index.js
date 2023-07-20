@@ -17,8 +17,19 @@
 // console.log(fun(2)(3)(4),
 // fun(2,4,5,6,7)(3)(4))
 // // fun(2,3,4,5)
-
-
+    function fnc(n,m,z,x,y){
+         console.log(n,m,z,x,y)
+    }
+    let arr=[]
+   function fn(){
+    arr.push(...arguments)
+        if(arr.length>=fnc.length){
+         fnc(...arr)
+        }else{
+         return fn
+        }
+   }
+console.log(  fn(2)(3)(4,5)(6,7,8))
 function add() {
     // 第一次执行时，定义一个数组专门用来存储所有的参数
     var _args = Array.prototype.slice.call(arguments);
@@ -38,7 +49,7 @@ function add() {
     return _adder;
 }
  
-console.log(add(1, 2, 3)(4).toString()   )                 // 6
+// console.log(fun(1, 2, 3)(4)  )                 // 6
           // 10
-add(1)(2)(3)(4)(5)          // 15
+// fun(1)(2)(3)(4)(5)          // 15
 add(2, 6)(1)        
