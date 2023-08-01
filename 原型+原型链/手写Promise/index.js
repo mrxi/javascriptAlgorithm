@@ -18,9 +18,7 @@ class myPromise {
         this.onResFns = []
         this.onRejFns = []
         let res = (value) => {
-            console.log( this.onResFns,' this.onResFns')
             queueMicrotask(() => {
-                console.log( this.onResFns,' this.onResFns1111')
                 if (this.status === statusPedding) {
                     this.status = statusRes
                     this.statusResValue = value
@@ -29,6 +27,7 @@ class myPromise {
                     })
                 }
             })
+
         }
         let rej = (value) => {
             queueMicrotask(() => {
@@ -50,15 +49,11 @@ class myPromise {
 
     }
     then(onRes, onRej) {
-<<<<<<< HEAD:手写Promise/index.js
         const onResfn = (value) => { return value }
         const onRejfn = (value) => { throw value }
         onRes = onRes || onResfn
         onRej = onRej || onRejfn
         let promise2 = new myPromise((res, rej) => {
-=======
-     let promise2= new myPromise((res, rej) => {
->>>>>>> 1d7c4710877ed881ef82c089d188be125af58085:原型+原型链/手写Promise/index.js
             if (this.status === statusRes && onRes) {
                 fun(onRes, this.statusResValue, res, rej)
                 // try {
@@ -82,7 +77,6 @@ class myPromise {
             }
             if (this.status === statusPedding) {
                 this.onResFns.push(() => {
-<<<<<<< HEAD:手写Promise/index.js
                     fun(onRes, this.statusResValue, res, rej)
                     // try {
                     //     const value = onRes(this.statusResValue)
@@ -91,16 +85,6 @@ class myPromise {
                     // } catch (err) {
                     //     rej(err)
                     // }
-=======
-                    try {
-                        console.log(this.statusResValue,'this.statusResValue')
-                        const value = onRes(this.statusResValue)
-                        console.log(value,'value')
-                        res(value)
-                    } catch (err) {
-                        rej(err)
-                    }
->>>>>>> 1d7c4710877ed881ef82c089d188be125af58085:原型+原型链/手写Promise/index.js
                 })
             }
             if (this.status === statusPedding) {
@@ -116,11 +100,7 @@ class myPromise {
             }
         })
 
-<<<<<<< HEAD:手写Promise/index.js
         return promise2
-=======
-   return     promise2
->>>>>>> 1d7c4710877ed881ef82c089d188be125af58085:原型+原型链/手写Promise/index.js
 
     }
     catch(err) {
@@ -148,9 +128,7 @@ class myPromise {
     }
     // static 
 }
-debugger
 
-<<<<<<< HEAD:手写Promise/index.js
 // let mypromise = new myPromise((res, rej) => {
 //     res(1111)
 // })
@@ -190,24 +168,4 @@ debugger
 // console.log(aaa,'哇塞大大')
 
 
-=======
-let mypromise = new myPromise((res, rej) => {
-    res(1111)
-    // rej('222')
-})
-console.log(mypromise,'mypromise')
-let promise2= mypromise.then((res) => {
-    console.log('res1：', res)
-    return '213213'
-}, (rej) => {
-    console.log(rej)
-})
-console.log(promise2)
-let promise3= promise2.then(res => {
-    console.log('res2:', res)
-}, rej => {
-    console.log('rej2:', rej)
-})
-console.log(promise3)
->>>>>>> 1d7c4710877ed881ef82c089d188be125af58085:原型+原型链/手写Promise/index.js
 
