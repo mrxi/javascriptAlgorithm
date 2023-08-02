@@ -109,24 +109,78 @@ class myPromise {
     finally(onFinally) {
         this.then(onFinally, onFinally)
     }
-    static all(promises){
-        let arr=[]
-        return new myPromise((res,rej)=>{
-            promises.forEach(promise=>{
-              promise.then((val)=>{
-                // console.log(val)
-                arr.push(val)
-                if(arr.length===promises.length){
-                    res(arr)
-                }
-              },(val)=>{
-                rej(val)
-              })
+    static all(promises) {
+        let arr = []
+        return new myPromise((res, rej) => {
+            promises.forEach(promise => {
+                promise.then((val) => {
+                    // console.log(val)
+                    arr.push(val)
+                    if (arr.length === promises.length) {
+                        res(arr)
+                    }
+                }, (val) => {
+                    rej(val)
+                })
             })
         })
 
     }
-    // static 
+    static allSettled(promises) {
+        return new myPromise((res, rej) => {
+            let arr = []
+            promises.forEach(promise => {
+                promise.then((res) => {
+                    arr.push({ status: statusRes, value: res })
+                    if (arr.length === promises.length) {
+                        res(arr)
+                    }
+                }, (err) => {
+                    arr.push({ status: statusRej, value: err })
+                    if (arr.length === promises.length) {
+                        res(arr)
+                    }
+                })
+            })
+
+        })
+    }
+    static any(promises) {
+        return new myPromise((res, rej) => {
+            let arr = []
+            promises.forEach(promise => {
+                promise.then((val) => {
+                    res(val)
+                }, err => {
+                    arr.push(err)
+                    if (arr.length === promises.length) {
+                        rej(new AggregateError(arr))
+                    }
+                })
+            })
+        })
+    }
+    static race(promises) {
+        return new myPromise((res, rej) => {
+            promises.forEach(promise => {
+                promise.then(val => {
+                    res(val)
+                }, err => {
+                    rej(err)
+                })
+            })
+        })
+    }
+    static res(onRes) {
+       return  new myPromise((res)=>{
+        res(onRes)
+       })
+    }
+    static rej(onRej){
+        return  new myPromise((undefined,rej)=>{
+            rej(onRej)
+           })
+    }
 }
 
 // let mypromise = new myPromise((res, rej) => {
@@ -145,26 +199,31 @@ class myPromise {
 //     console.log('asadasd阿三大苏打')
 // })
 
-  let a=new myPromise((res,rej)=>{
-    setTimeout(()=>{
+let a = new myPromise((res, rej) => {
+    setTimeout(() => {
         res('23123')
-    },1000)
-  })
-  let b=new myPromise((res,rej)=>{
-    setTimeout(()=>{
-        res('23123')
-    },2000)
-  })
-  let p=new myPromise((res,rej)=>{
-    setTimeout(()=>{
-        rej('23123')
-    },3000)
-  })
-  myPromise.all([a,b,p]).then(res=>{
-    console.log(res)
-  }).catch(err=>{
-    console.log(err)
-  })
+    }, 4000)
+})
+let b = new myPromise((res, rej) => {
+    setTimeout(() => {
+        rej('啊啊啊')
+    }, 2000)
+})
+let p = new myPromise((res, rej) => {
+    setTimeout(() => {
+        rej('哈哈哈哈')
+    }, 3000)
+})
+// myPromise.race(a).then(res => {
+//     console.log(res, 'res')
+// }).catch(err => {
+//     console.log(err, 'err')
+// })
+myPromise.rej(123).then(res=>{
+    console.log(res,'sadsada')
+}).catch(err=>{
+    console.log(err,'sadas')
+})
 // console.log(aaa,'哇塞大大')
 
 
