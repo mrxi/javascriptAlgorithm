@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2023-08-02 09:33:49
- * @LastEditTime: 2023-08-02 10:00:10
+ * @LastEditTime: 2023-08-02 10:07:18
  * @LastEditors: FujiSan
  * @Description: In User Settings Edit
  * @FilePath: \javascriptAlgorithm\迭代器-迭代对象\index.js
@@ -16,21 +16,21 @@ obj = {
   next() {
     if (i < names.length) {
       return {
-        done: true,
+        done: false,
         value: names[i++]
       }
     } else {
       return {
-        done: false,
+        done: true,
         value: undefined
       }
     }
   }
 }
-console.log(obj.next())
-console.log(obj.next())
-console.log(obj.next())
-console.log(obj.next())
+// console.log(obj.next())
+// console.log(obj.next())
+// console.log(obj.next())
+// console.log(obj.next())
 
 
 // 什么是迭代对象 迭代对象 是 里面有个属性 [Symbol.iterator](是个函数) 迭代对象抛出的是个迭代器
@@ -42,12 +42,12 @@ let objs = {
       next: () => {
         if (index < this.arr.length) {
           return {
-            done: true,
+            done: false,
             value: this.arr[index++]
           }
         } else {
           return {
-            done: false,
+            done: true,
             value: undefined
           }
         }
@@ -55,12 +55,16 @@ let objs = {
     }
   }
 }
-let arr=objs[Symbol.iterator]()
-console.log(arr.next())
-console.log(arr.next())
-console.log(arr.next())
-console.log(arr.next())
-console.log(arr.next())
-console.log(arr.next())
-console.log(arr.next())
-console.log(arr.next())
+// let arr=objs[Symbol.iterator]()
+// console.log(arr.next())
+// console.log(arr.next())
+// console.log(arr.next())
+// console.log(arr.next())
+// console.log(arr.next())
+// console.log(arr.next())
+// console.log(arr.next())
+// console.log(arr.next())
+
+for(let key of objs){
+  console.log(key)
+}
