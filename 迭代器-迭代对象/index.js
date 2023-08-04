@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2023-08-02 09:33:49
- * @LastEditTime: 2023-08-02 10:07:18
+ * @LastEditTime: 2023-08-04 10:37:36
  * @LastEditors: FujiSan
  * @Description: In User Settings Edit
  * @FilePath: \javascriptAlgorithm\迭代器-迭代对象\index.js
@@ -37,6 +37,7 @@ obj = {
 let objs = {
   arr: [23, 45, 67, 89, 90],
   [Symbol.iterator]() {
+    
     let index = 0;
     return {
       next: () => {
@@ -68,3 +69,7 @@ let objs = {
 for(let key of objs){
   console.log(key)
 }
+
+//  可以用 for of 遍历的是 Set, Map, Array,arguments, Promise.all()(接受的也可以是
+//   迭代对象
+//   )
