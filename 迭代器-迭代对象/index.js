@@ -37,10 +37,11 @@ obj = {
 let objs = {
   arr: [23, 45, 67, 89, 90],
   [Symbol.iterator]() {
-    
+
     let index = 0;
     return {
       next: () => {
+        // console.log(this,'阿达是的')
         if (index < this.arr.length) {
           return {
             done: false,
@@ -56,8 +57,8 @@ let objs = {
     }
   }
 }
-// let arr=objs[Symbol.iterator]()
-// console.log(arr.next())
+let arr = objs[Symbol.iterator]()
+console.log(arr.next())
 // console.log(arr.next())
 // console.log(arr.next())
 // console.log(arr.next())
@@ -66,10 +67,18 @@ let objs = {
 // console.log(arr.next())
 // console.log(arr.next())
 
-for(let key of objs){
+for (let key of objs) {
   console.log(key)
 }
 
 //  可以用 for of 遍历的是 Set, Map, Array,arguments, Promise.all()(接受的也可以是
 //   迭代对象
 //   )
+
+
+let fn = async function () {
+    return 123123
+} 
+console.log(fn().then(res=>{
+  console.log(res,'res')
+}))
