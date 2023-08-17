@@ -5,3 +5,42 @@
 // 但是 宏任务执行的条件是 等微任务 全部执行 完成 才会执行
 // 这里就会形成闭环，也就是事件循环 其他线程到时间了，把需要执行的加入到宏任务队列中，或者加入微任务队列中，当同步任务执行完成之后，
 // 先把 微任务队列中的加入到主线程开始执行，执行完成之后会把宏任务加入主线程开始执行
+
+// Promise执行机制  如下示例
+
+
+Promise.resolve().then(()=>{
+    console.log(1)
+    // return  4
+    // return {
+    //     then(resolve){
+    //         resolve(4)
+    //     }
+    // }
+
+    return Promise.resolve(4)
+}).then(res=>{
+    console.log(res)
+})
+
+Promise.resolve().then(()=>{
+    console.log(2)
+}).then(()=>{
+    console.log(3)
+}).then(()=>{
+    console.log(5)
+}).then(()=>{
+    console.log(6)
+}).then(()=>{
+    console.log(7)
+})
+
+
+// 如果 Promise.resolve().then()中 return 一个基本类型的 则 执行 结果就是 
+// // 1,2,4,3,5,6,7
+// 如果 Promise.resolve().then()中 return thenable的值  则执行结果是
+// 1,2,3,4,5,6,7
+// 如果 Promise.resolve().then()中 return Promise.resolve()  则执行结果是
+// 1,2,3,5,4,6,7
+
+// 口诀 return  普通值 不后移  return thenable的值 后移一位， return Promise.resolve()后移2位
