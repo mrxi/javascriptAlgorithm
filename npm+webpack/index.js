@@ -1,5 +1,7 @@
 初始化 npm init 或者 npm init -y
 就会生成一个 package.json文件夹
+一般我们用vue.cli创建的项目 private:true,默认是true
+是不允许作为我们上传 npm仓库的
 package.json 中 main 是假如你把包上传之后，别人需要下载你的包时候
  就是你的入口文件 一般 mian:'index.js'
  我们下载完依赖 在对应项目种使用 就是 import * as axios from 'axios'
