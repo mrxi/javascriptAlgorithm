@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input">
+    <button id="btn">取消</button>
+    <!-- <script src="./this_参数.js"></script> -->
+    <!-- <script src="./立即执行.js"></script> -->
+    <!-- <script src="./取消执行.js"></script> -->
+    <!-- <script src="./函数返回.js"></script> -->
+    <script src="./Promise函数返回.js"></script>
+    <script>
+    let inp=    document.getElementById('input')
+    let btn=document.getElementById('btn')
+    let num=0
+    function inputChange(event){
+      console.log(`第${++num}执行`,this,event)
+      return 'aaaaaa'
+    }
+    
+    let add=shake(inputChange,2000,false)
+    let Prom=()=>{
+        add().then(res=>{
+        console.log(res,'哈哈哈哈哈哈哈哈哈')
+    })
+    }
+     inp.oninput=Prom
+     btn.onclick=function(){
+        add.close()
+     }
+    </script>
+</body>
+</html>
