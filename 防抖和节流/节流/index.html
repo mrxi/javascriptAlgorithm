@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./基本实现.js"></script>
+    <input type="text" id="input">
+    <script>
+    let inp=    document.getElementById('input')
+    let num=0
+    function inputChange(event){
+      console.log(`第${++num}执行`,this,event)
+    }
+    let add=throttle(inputChange,2000,true,true)
+     inp.oninput=add
+    </script>
+</body>
+</html>
