@@ -16,14 +16,22 @@ class EventBus {
   off(eventName,eventCallBack) {
     const handlers=this.ThandlersBus[eventName]
     if(!handlers) return
-     const newHandlers=[...handlers]
-     for(let i=0;i<newHandlers.length;i++){
-      const handler = newHandlers[i]
-      if(handler.eventCallBack===eventCallBack){
-        const index = handlers.indexOf(handler)
-        handlers.splice(index, 1)
+     let i=0;
+     while(i<handlers.length){
+      if(handlers[i].eventCallBack===eventCallBack){
+        handlers.splice(i,1)
+        continue
       }
+      i++
      }
+    // const newHandlers = [...handlers]
+    //  for(let i=0;i<newHandlers.length;i++){
+    //   const handler = newHandlers[i]
+    //   if(handler.eventCallBack===eventCallBack){
+    //     const index = handlers.indexOf(handler)
+    //     handlers.splice(index, 1)
+    //   }
+    //  }
   }
   emit(eventName, ...params) {
     let handlers = this.ThandlersBus[eventName]
